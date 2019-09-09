@@ -36,8 +36,10 @@ def search_to_git(keyword):
         page_all=10
     for i in range(2,int(page_all)+1):
         req = get('https://api.github.com/search/repositories?q={}&per_page=100&sort=stars&page={}'.format(keyword,i))
-        item_all=item_all|dicts_to_dictsString(req.json()['items'])
-
+        try:
+            item_all=item_all|dicts_to_dictsString(req.json()['items'])
+        except KeyError:
+            return item_all
     return item_all
 
 
